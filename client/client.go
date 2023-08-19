@@ -13,6 +13,7 @@ const (
 
 func ConnectToServer() {
 	connection, err := net.Dial(SERVER_TYPE, SERVER_HOST+":"+SERVER_PORT)
+
 	if err != nil {
 		panic(err)
 	}
