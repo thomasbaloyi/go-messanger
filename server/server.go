@@ -37,7 +37,7 @@ func processClientConnection(connection net.Conn) {
 	buffer := make([]byte, 1024)
 	mLen, err := connection.Read(buffer)
 	if err != nil {
-		fmt.Println("Error reading:", err.Error())
+		fmt.Println("Error reading from connection:", err.Error())
 	}
 	fmt.Println("Received: ", string(buffer[:mLen]))
 	_, err = connection.Write([]byte("Thanks! Got your message:" + string(buffer[:mLen])))
