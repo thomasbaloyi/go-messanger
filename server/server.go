@@ -5,31 +5,24 @@ import (
 	"net"
 )
 
-func ListenAndServe(port string) {
+func Listen(port string) net.Listener {
 
 	listener, err := net.Listen("tcp4", "localhost:"+port)
 
 	if err != nil {
 		fmt.Println("Could not start server: ", err)
-		return
+		return nil
 	} else {
 		fmt.Println("Listening and serving on the address:", listener.Addr().String())
 	}
 
-	connection, err := listener.Accept()
+	return listener
+}
 
-	if err != nil {
-		fmt.Println("Could not accept/open connection: ", err)
-	} else {
-		fmt.Println("Connection established: ", connection)
-	}
+func Connect(listener net.Listener) (net.Conn, error) {
+	return listener.Accept()
+}
 
-	err = connection.Close()
-
-	if err != nil {
-		fmt.Println("Could not close connection: ", err)
-	} else {
-		fmt.Println("Connection closed: ", connection)
-	}
-
+func StopListening(connection net.Conn) error {
+	return connection.Close()
 }

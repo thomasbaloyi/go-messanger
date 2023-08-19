@@ -5,5 +5,8 @@ import (
 )
 
 func main() {
-	server.ListenAndServe("")
+	listener := server.Listen("")
+	if listener == nil {
+		return
+	}
 }
