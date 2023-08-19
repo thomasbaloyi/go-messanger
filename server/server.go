@@ -25,7 +25,7 @@ func StartServer() net.Listener {
 	for {
 		connection, err := server.Accept()
 		if err != nil {
-			fmt.Println("Error accepting to server: ", err.Error())
+			fmt.Println("Error accepting to server:", err.Error())
 			os.Exit(1)
 		}
 		fmt.Println("client connected")
