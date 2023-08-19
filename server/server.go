@@ -3,26 +3,43 @@ package server
 import (
 	"fmt"
 	"net"
+	"os"
 )
 
-func Listen(port string) net.Listener {
+const (
+	SERVER_HOST = "localhost"
+	SERVER_PORT = "8080"
+	SERVER_TYPE = "tcp"
+)
 
-	listener, err := net.Listen("tcp4", "localhost:"+port)
-
+func StartServer() net.Listener {
+	fmt.Println("Server Running...")
+	server, err := net.Listen(SERVER_TYPE, SERVER_HOST+":"+SERVER_PORT)
 	if err != nil {
-		fmt.Println("Could not start server: ", err)
-		return nil
-	} else {
-		fmt.Println("Listening and serving on the address:", listener.Addr().String())
+		fmt.Println("Error listening:", err.Error())
+		os.Exit(1)
 	}
-
-	return listener
+	defer server.Close()
+	fmt.Println("Listening on " + SERVER_HOST + ":" + SERVER_PORT)
+	fmt.Println("Waiting for client...")
+	for {
+		connection, err := server.Accept()
+		if err != nil {
+			fmt.Println("Error accepting: ", err.Error())
+			os.Exit(1)
+		}
+		fmt.Println("client connected")
+		go processClientConnection(connection)
+	}
 }
 
-func Connect(listener net.Listener) (net.Conn, error) {
-	return listener.Accept()
-}
-
-func StopListening(connection net.Conn) error {
-	return connection.Close()
+func processClientConnection(connection net.Conn) {
+	buffer := make([]byte, 1024)
+	mLen, err := connection.Read(buffer)
+	if err != nil {
+		fmt.Println("Error reading:", err.Error())
+	}
+	fmt.Println("Received: ", string(buffer[:mLen]))
+	_, err = connection.Write([]byte("Thanks! Got your message:" + string(buffer[:mLen])))
+	connection.Close()
 }
