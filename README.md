@@ -8,5 +8,10 @@ Welcome to the Chat Messenger App! This app is designed to provide seamless and 
 - Group Chats: Create or join group chats to converse with multiple people simultaneously.
 - End-to-End Encryption: Security is our priority. All conversations are encrypted, ensuring that your private conversations stay private.
 
+# Usage
+
+To run the application - run:
+- go run main.go
+
 # License
 This project is licensed under the [MIT License](https://mit-license.org/). Feel free to use, modify, and distribute the app in accordance with the terms specified in the license.
